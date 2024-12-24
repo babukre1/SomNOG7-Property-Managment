@@ -1,7 +1,7 @@
-const Property = require("../model/property");
+import Property from "../models/property.model.js";
 
 // Add a new property
-exports.addProperty = async (req, res) => {
+export const addProperty = async (req, res) => {
   const { propertyName, address, size, propertyType, owner, documents } =
     req.body;
   try {
@@ -23,7 +23,7 @@ exports.addProperty = async (req, res) => {
 };
 
 // Get all properties
-exports.getAllProperties = async (req, res) => {
+export const getAllProperties = async (req, res) => {
   try {
     const properties = await Property.find().populate(
       "owner",
@@ -35,18 +35,54 @@ exports.getAllProperties = async (req, res) => {
   }
 };
 
-// Get property by ID
-exports.getPropertyById = async (req, res) => {
-  const { id } = req.params;
+// delete property by ID
+export const deleteProperty = async (req, res) => {
+  const id = req.params.id.trim(); // Trim to remove whitespace and newline characters
+
   try {
-    const property = await Property.findById(id).populate(
-      "owner",
-      "fullName contactInfo"
-    );
+    const property = await Property.findByIdAndDelete(id);
+    if (!property)
+      return res.status(404).json({ message: "Property not found!" });
+    res.status(200).json({ message: "Property deleted successfully!" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+// Get property by ID
+export const getPropertyById = async (req, res) => {
+  const id = req.params.id.trim();
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid property ID format!" });
+  }
+  try {
+    const property = await Property.findById(id);
     if (!property)
       return res.status(404).json({ message: "Property not found!" });
     res.status(200).json(property);
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateProperty = async (req, res) => {
+  const id = req.params.id.trim();
+  const { propertyName, address, size, propertyType } = req.body;
+  try {
+    const property = await Property.findByIdAndUpdate(
+      id,
+      { propertyName, address, size, propertyType },
+      { new: true }
+    );
+    if (!property)
+      return res.status(404).json({ message: "Property not found!" });
+    res
+      .status(200)
+      .json({ message: "Property updated successfully!", property });
+  } catch (error) {
+    console.log(error);
+
     res.status(500).json({ error: error.message });
   }
 };

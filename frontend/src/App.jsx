@@ -6,18 +6,26 @@ import Login from "./pages/login";
 import Home from "./pages/Home";
 import SidebarLayout from "./components/SidebarLayout";
 import TableWithActions from "./pages/property";
+import AddUser from "./pages/addUser";
 import AddPropertyForm from "./components/AddPropertyForm";
+import EditPropertyForm from "./components/EditPropertyForm";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <Routes>
-      <Route element={<SidebarLayout />}>
-        <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Home />} />
-        <Route path="/property" element={<TableWithActions />} />
-        <Route path="/addPropertyForm" element={<AddPropertyForm />} />
+      <Route path="/login" element={<Login />} />
+
+      <Route element={<ProtectedRoute />}>
+        <Route element={<SidebarLayout />}>
+          <Route path="/dashboard" element={<Home />} />
+          <Route path="/property" element={<TableWithActions />} />
+          <Route path="/addPropertyForm" element={<AddPropertyForm />} />
+          <Route path="/EditPropertyForm/:id" element={<EditPropertyForm />} />
+          <Route path="/addUser" element={<AddUser />} />
+        </Route>
       </Route>
     </Routes>
   );

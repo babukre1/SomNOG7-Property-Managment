@@ -1,15 +1,21 @@
-const express = require('express');
-const { addOwner, getAllOwners, getOwnerById } = require('../controllers/ownerController');
+import express from "express";
+
+import {
+  addOwner,
+  getAllOwners,
+  getOwnerById,
+} from "../controllers/ownerController";
+
 
 const router = express.Router();
 
 // Add a new owner
-router.post('/', addOwner);
+router.post("/", addOwner);
 
 // Get all owners
-router.get('/', getAllOwners);
+router.get("/", getAllOwners);
 
 // Get a single owner by ID
-router.get('/:id', getOwnerById);
+router.get("/:id", getOwnerById);
 
 module.exports = router;

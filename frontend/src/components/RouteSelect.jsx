@@ -1,5 +1,11 @@
 import React from "react";
-import { FaHome, FaBuilding, FaUsers, FaToolbox, FaEnvelope } from "react-icons/fa";
+import {
+  FaHome,
+  FaBuilding,
+  FaUsers,
+  FaToolbox,
+  FaEnvelope,
+} from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 
 const RouteSelect = () => {
@@ -8,11 +14,26 @@ const RouteSelect = () => {
   return (
     <div className="space-y-1">
       {/* Sidebar Buttons */}
-      <SidebarButton selected={location.pathname === "/Dashboard"} Icon={FaHome} title="Dashboard" path="/Dashboard" />
-      <SidebarButton selected={location.pathname === "/property"} Icon={FaBuilding} title="Properties" path="/property" />
-      <SidebarButton selected={location.pathname === "/tenants"} Icon={FaUsers} title="Tenants" path="/tenants" />
-      <SidebarButton selected={location.pathname === "/maintenace"} Icon={FaToolbox} title="Maintenance" path="/maintenace" />
-      <SidebarButton selected={location.pathname === "/contractor"} Icon={FaEnvelope} title="Contractor" path="/contractor" />
+      <SidebarButton
+        selected={location.pathname === "/Dashboard"}
+        Icon={FaHome}
+        title="Dashboard"
+        path="/dashboard"
+      />
+      <SidebarButton
+        selected={location.pathname === "/property"}
+        Icon={FaBuilding}
+        title="Properties"
+        path="/property"
+      />
+      <SidebarButton
+        selected={location.pathname === "/user"}
+        Icon={FaUsers}
+        title="Tenants"
+        path="/users"
+      />
+      {/* <SidebarButton selected={location.pathname === "/maintenace"} Icon={FaToolbox} title="Maintenance" path="/maintenace" />
+      <SidebarButton selected={location.pathname === "/contractor"} Icon={FaEnvelope} title="Contractor" path="/contractor" /> */}
     </div>
   );
 };
@@ -28,8 +49,14 @@ const SidebarButton = ({ selected, Icon, title, path }) => {
             : "hover:bg-stone-200 bg-transparent text-stone-600"
         }`}
       >
-        <Icon className={`${selected ? "text-violet-500" : "text-stone-500"} text-lg`} />
-        <span className={`${selected ? "text-stone-900" : "text-stone-600"}`}>{title}</span>
+        <Icon
+          className={`${
+            selected ? "text-violet-500" : "text-stone-500"
+          } text-lg`}
+        />
+        <span className={`${selected ? "text-stone-900" : "text-stone-600"}`}>
+          {title}
+        </span>
       </button>
     </Link>
   );

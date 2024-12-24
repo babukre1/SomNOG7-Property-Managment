@@ -8,17 +8,17 @@ const TableWithActions = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // const fetchProperties = async () => {
-    //   try {
-    //     const response = await axios.get("");
-    //     console.log("Fetched Properties:", response.data);
-    //     setProperties(response.data);
-    //   } catch (error) {
-    //     console.error("Error fetching properties:", error);
-    //   }
-    // };
-
-    // fetchProperties();
+    const fetchProperties = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3004/api/property/getAllProperties"
+        );
+        setProperties(response.data);
+      } catch (error) {
+        console.error("Error fetching properties:", error);
+      }
+    };
+    fetchProperties();
   }, []);
 
   const handleAddNew = () => {
@@ -38,13 +38,15 @@ const TableWithActions = () => {
     if (!isConfirmed) return;
 
     try {
-      await axios.delete(`http://localhost:3000/api/property/${id}`);
+      await axios.delete(
+        `http://localhost:3004/api/property/deleteProperty/${id}`
+      );
       alert("Property deleted successfully");
       setProperties((prevProperties) =>
         prevProperties.filter((property) => property._id !== id)
       );
     } catch (error) {
-      console.error("Error deleting property:", error);
+      console.error(error);
       alert("Failed to delete the property.");
     }
   };
@@ -52,10 +54,9 @@ const TableWithActions = () => {
   // Filter properties based on search term
   const filteredProperties = properties.filter(
     (property) =>
-      property.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      property.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      property.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      property.city.toLowerCase().includes(searchTerm.toLowerCase())
+      property.propertyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      property.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      property.propertyType.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -80,62 +81,43 @@ const TableWithActions = () => {
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-100">
           <tr>
-            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            {/* <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Image
+            </th> */}
+            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Property Name
             </th>
             <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Name
-            </th>
-            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Location
+              Address
             </th>
             <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Square Footage
             </th>
+
             <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Bedrooms
-            </th>
-            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              rent_type
-            </th>
-            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Type
-            </th>
-            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              City
+              Property Type
             </th>
             <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Status
-            </th>
-            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Actions
             </th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {filteredProperties.map((property) => (
             <tr key={property._id}>
-              <td className="px-4 py-2">
+              {/* <td className="px-4 py-2">
                 <img
                   src={property.image_url}
                   alt={`${property.name} cover`}
                   className="w-16 h-16 object-cover rounded"
                 />
-              </td>
-              <td className="px-4 py-2">{property.name}</td>
-              <td className="px-4 py-2">{property.location}</td>
-              <td className="px-4 py-2">{property.square_footage}</td>
-              <td className="px-4 py-2">{property.bedrooms}</td>
-              <td className="px-4 py-2">{property.rent_type}</td>
-              <td className="px-4 py-2">{property.type}</td>
-              <td className="px-4 py-2">{property.city}</td>
-              <td className="px-4 py-2">
-                {property.isRented ? (
-                  <span className="text-red-500">Rented</span>
-                ) : (
-                  <span className="text-green-500">Available</span>
-                )}
-              </td>
+              </td> */}
+              <td className="px-4 py-2">{property.propertyName}</td>
+              <td className="px-4 py-2">{property.address}</td>
+              <td className="px-4 py-2">{property.size}</td>
+              <td className="px-4 py-2">{property.propertyType}</td>
+              <td className="px-4 py-2">{property.status}</td>
+
               <td className="px-4 py-2 flex gap-2">
                 <button
                   className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition"

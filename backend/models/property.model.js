@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // Property Schema
 const PropertySchema = new mongoose.Schema(
   {
     propertyName: { type: String, required: true },
     address: { type: String, required: true },
-    size: { type: Number, required: true },
+    size: { type: String, required: true },
     propertyType: {
       type: String,
       enum: ["Residential", "Commercial", "Agricultural", "Industrial"],
@@ -26,4 +26,5 @@ const PropertySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Property", PropertySchema);
+const Property = mongoose.model("Property", PropertySchema);
+export default Property;

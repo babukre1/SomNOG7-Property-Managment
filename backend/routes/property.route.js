@@ -1,21 +1,26 @@
 import express from "express";
-const express = require("express");
-
-const {
+import {
   addProperty,
   getAllProperties,
   getPropertyById,
-} = require
+  deleteProperty,
+  updateProperty,
+} from "../controllers/propertyController.js";
 
 const router = express.Router();
 
 // Add a new property
-router.post("/", addProperty);
+router.post("/addProperty", addProperty);
+
+// update a property
+router.post("/updateProperty/:id", updateProperty);
 
 // Get all properties
-router.get("/", getAllProperties);
+router.get("/getAllProperties", getAllProperties);
 
 // Get a single property by ID
-router.get("/:id", getPropertyById);
+router.get("/getProperty/:id", getPropertyById);
 
-module.exports = router;
+router.delete("/deleteProperty/:id", deleteProperty);
+
+export default router;
