@@ -30,7 +30,7 @@ const addUser = () => {
     } catch (error) {
       setError(true);
       setLoading(false);
-      console.error(error.message);
+      console.error(error);
     }
   };
 
@@ -130,7 +130,7 @@ const addUser = () => {
                       </label>
                       <select
                         name="propertyType"
-                        value={formData.propertyType}
+                        value={formData.role}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
@@ -158,18 +158,6 @@ const addUser = () => {
                       >
                         {loading ? "Logging in..." : "Log in"}
                       </button>
-                    </div>
-
-                    <div className="text-center">
-                      <p className="text-base text-gray-600">
-                        Don’t have an account?{" "}
-                        <Link
-                          to="/register"
-                          className="font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 hover:underline"
-                        >
-                          Create a free account
-                        </Link>
-                      </p>
                     </div>
                   </div>
                 </form>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { getCurrentUser } from "../utils/utils"; // Import the utility function
+import { getCurrentUser } from "../utils/util"; // Import the utility function
 
 const ProtectedRoute = () => {
   const user = getCurrentUser();

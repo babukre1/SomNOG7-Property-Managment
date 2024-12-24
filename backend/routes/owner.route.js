@@ -1,21 +1,28 @@
 import express from "express";
-
-import {
-  addOwner,
-  getAllOwners,
-  getOwnerById,
-} from "../controllers/ownerController";
-
+import { addOwner, updateOwner, deleteOwner, getOwnerById, getOwners } from "../controllers/ownerController.js";
+// import {
+//   createOwner,
+//   getOwners,
+//   getOwnerById,
+//   updateOwner,
+//   deleteOwner,
+// } from "../controllers/ownerController.js";
 
 const router = express.Router();
 
-// Add a new owner
-router.post("/", addOwner);
+// Create a new owner
+router.post("/addOwner", addOwner);
 
 // Get all owners
-router.get("/", getAllOwners);
+router.get("/getOwners", getOwners);
 
 // Get a single owner by ID
-router.get("/:id", getOwnerById);
+router.get("/getOwnerById/:id", getOwnerById);
 
-module.exports = router;
+// Update an owner by ID
+router.post("/updateOwner/:id", updateOwner);
+
+// Delete an owner by ID
+router.delete("/deleteOwner/:id", deleteOwner);
+
+export default router;

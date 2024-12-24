@@ -1,21 +1,18 @@
 import React from "react";
-import {
-  FaHome,
-  FaBuilding,
-  FaUsers,
-  FaToolbox,
-  FaEnvelope,
-} from "react-icons/fa";
+import { FaHome, FaBuilding, FaUsers, FaUser } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
+import { getCurrentUser } from "../utils/util";
 
 const RouteSelect = () => {
+  const user = getCurrentUser();
+
   const location = useLocation();
 
   return (
     <div className="space-y-1">
       {/* Sidebar Buttons */}
       <SidebarButton
-        selected={location.pathname === "/Dashboard"}
+        selected={location.pathname === "/dashboard"}
         Icon={FaHome}
         title="Dashboard"
         path="/dashboard"
@@ -26,12 +23,21 @@ const RouteSelect = () => {
         title="Properties"
         path="/property"
       />
+      {user.role === "admin" && (
+        <SidebarButton
+          selected={location.pathname === "/users"}
+          Icon={FaUser}
+          title="Users"
+          path="/users"
+        />
+      )}
       <SidebarButton
-        selected={location.pathname === "/user"}
+        selected={location.pathname === "/owners"}
         Icon={FaUsers}
-        title="Tenants"
-        path="/users"
+        title="Owners"
+        path="/owners"
       />
+
       {/* <SidebarButton selected={location.pathname === "/maintenace"} Icon={FaToolbox} title="Maintenance" path="/maintenace" />
       <SidebarButton selected={location.pathname === "/contractor"} Icon={FaEnvelope} title="Contractor" path="/contractor" /> */}
     </div>

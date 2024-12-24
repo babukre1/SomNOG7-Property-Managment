@@ -1,18 +1,10 @@
+import mongoose from "mongoose";
 import Property from "../models/property.model.js";
 
 // Add a new property
 export const addProperty = async (req, res) => {
-  const { propertyName, address, size, propertyType, owner, documents } =
-    req.body;
   try {
-    const newProperty = new Property({
-      propertyName,
-      address,
-      size,
-      propertyType,
-      owner,
-      documents,
-    });
+    const newProperty = new Property(req.body);
     await newProperty.save();
     res
       .status(201)
@@ -48,7 +40,6 @@ export const deleteProperty = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 // Get property by ID
 export const getPropertyById = async (req, res) => {

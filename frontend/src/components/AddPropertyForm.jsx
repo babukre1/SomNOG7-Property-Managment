@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export function AddPropertyForm() {
   const [formData, setFormData] = useState({
@@ -7,58 +8,50 @@ export function AddPropertyForm() {
     address: "",
     size: "",
     propertyType: "Residential",
+    owner: "", // Added owner field
   });
+  const [owners, setOwners] = useState([]); // State to store owners
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prev) => ({ ...prev, [name]: value }));
-  // };
+  // Fetch owners from the API
+  useEffect(() => {
+    async function fetchOwners() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3004/api/owner/getOwners"
+        );
+        setOwners(response.data);
+      } catch (error) {
+        console.error("Error fetching owners:", error);
+      }
+    }
+    fetchOwners();
+  }, []);
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
     const payload = {
       ...formData,
-      owner: "676901ee6824fc872217ea30", // Replace with the actual owner ID
       documents: ["one"], // Add document URLs if needed
       status: "Pending", // Default status
     };
-    console.log(payload);
-
-    e.preventDefault();
-    setIsLoading(true);
 
     try {
       const response = await axios.post(
         "http://localhost:3004/api/property/addProperty",
         payload
       );
-
       console.log(response.data);
       console.log("Property added successfully!");
+      navigate("/property");
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
-    axios
-      .post("http://localhost:3004/api/property/addProperty", payload)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        if (error.response) {
-          // The server responded with a status code outside the 2xx range
-          console.log("Error response:", error.response);
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log("request was made but no response was received:");
-
-          console.log("Error request:", error.request);
-        } else {
-          // Something happened in setting up the request that triggered an error
-          console.log("Error message:", error.message);
-        }
-      }).finally(() => {  
-        setIsLoading(false);
-      });
   };
 
   return (
@@ -149,13 +142,36 @@ export function AddPropertyForm() {
                   </select>
                 </div>
 
+                {/* Owner */}
+                <div className="mt-4">
+                  <label className="text-base font-medium text-gray-900">
+                    Owner
+                  </label>
+                  <select
+                    name="owner"
+                    value={formData.owner}
+                    onChange={(e) =>
+                      setFormData({ ...formData, owner: e.target.value })
+                    }
+                    className="block w-full py-3 px-4 text-black bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600"
+                    required
+                  >
+                    <option value="">Select an owner</option>
+                    {owners.map((owner) => (
+                      <option key={owner._id} value={owner._id}>
+                        {owner.fullName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 {/* Submit Button */}
                 <button
-                  // disabled={isLoading}
                   type="submit"
                   className={`mt-6 inline-flex items-center justify-center w-full px-4 py-4 text-base font-semibold text-white ${
                     isLoading ? "bg-gray-500" : "bg-blue-600"
                   } border border-transparent rounded-md focus:outline-none hover:bg-blue-700`}
+                  disabled={isLoading}
                 >
                   {isLoading ? "Submitting..." : "Submit Property"}
                 </button>

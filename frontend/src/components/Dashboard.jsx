@@ -1,7 +1,7 @@
 import React from "react";
 import { TopBar } from "./TopBar";
 import { Grid } from "./Grid";
-import { getCurrentUser } from "../utils/utils";
+import { getCurrentUser } from "../utils/util";
 
 export const Dashboard = () => {
   const user = getCurrentUser();
