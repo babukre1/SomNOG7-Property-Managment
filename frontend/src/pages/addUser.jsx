@@ -40,7 +40,7 @@ const addUser = () => {
         <div className="px-4 mx-auto max-w-7xl sm:px-6 ">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-2xl font-bold leading-tight text-gr sm:text-4xl lg:text-5xl">
-              Welcome Back!
+              Add a User!
             </h2>
             <p className="max-w-xl text-lg mx-auto mt-4  leading-relaxed font-bold text-gray-800">
               Add new User
@@ -140,6 +140,7 @@ const addUser = () => {
                         className="block w-full py-3 px-4 text-black bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600"
                         required
                       >
+                        <option value="">Choose Role</option>
                         <option value="user">user</option>
                         <option value="admin">admin</option>
                       </select>
@@ -156,7 +157,7 @@ const addUser = () => {
                         type="submit"
                         className="inline-flex items-center justify-center w-full px-4 py-4 text-base font-semibold text-white transition-all duration-200 bg-blue-600 border border-transparent rounded-md focus:outline-none hover:bg-blue-700 focus:bg-blue-700"
                       >
-                        {loading ? "Logging in..." : "Log in"}
+                        {loading ? "Adding NewUser..." : "Add User"}
                       </button>
                     </div>
                   </div>

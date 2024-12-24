@@ -25,10 +25,6 @@ export const Users = () => {
     navigate("/addUser");
   };
 
-  const handleEditClick = (user) => {
-    navigate(`/editUser/${user._id}`);
-  };
-
   const handleDelete = async (id) => {
     if (!id) return;
 
@@ -106,12 +102,6 @@ export const Users = () => {
               <td className="px-4 py-2">{user.createdAt}</td>
               <td className="px-4 py-2">{user.role}</td>
               <td className="px-4 py-2 flex gap-2">
-                <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition"
-                  onClick={() => handleEditClick(user)}
-                >
-                  Edit
-                </button>
                 <button
                   className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition"
                   onClick={() => handleDelete(user._id)}

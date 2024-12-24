@@ -9,16 +9,22 @@ const StatCards = () => {
     totalMaintenanceRequests: 0,
     completedMaintenanceTasks: 0,
   });
+  const [properties, setProperties] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/dashboard");
+        const response = await fetch(
+          "http://localhost:3004/api/property/getAllProperties"
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
         console.log("Fetched data:", data);
+        setProperties(data);
+        console.log("Properties:", properties);
 
         setStats({
           totalTenants: data.totalTenants,
@@ -34,19 +40,41 @@ const StatCards = () => {
 
     fetchData();
   }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3004/api/user/getAllusers"
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched data:", data);
+        setProperties(data);
+        console.log("Properties:", properties);
+
+        setUsers(data);
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
       <Card
-        title="Total Tenants"
-        value={stats.totalTenants}
+        title="Total Properties"
+        value={properties.length}
         pillText="5.24%"
         trend="up"
-        period="Current Active Tenants"
+        period="Current Active Properties"
       />
       <Card
-        title="Total Properties"
-        value={stats.totalProperties}
+        title="Total Users"
+        value={users.length}
         pillText="1.01%"
         trend="down"
         period="From Jan 1st - Jul 31st"
