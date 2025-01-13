@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
 import Home from "./pages/Home";
 import SidebarLayout from "./components/SidebarLayout";
@@ -18,6 +18,8 @@ function App() {
 
       <Route element={<ProtectedRoute />}>
         <Route element={<SidebarLayout />}>
+        <Route path="/" element={<Navigate to="/dashboard" />} />
+
           <Route path="/dashboard" element={<Home />} />
           <Route path="/property" element={<TableWithActions />} />
           <Route path="/addPropertyForm" element={<AddPropertyForm />} />
