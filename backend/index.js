@@ -7,14 +7,17 @@ import ownerRoutes from "./routes/owner.route.js";
 import { Dbconnect } from "./config/connect.js";
 import cors from "cors";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 const app = express();
+app.use(express.json());
+app.use(cors({ origin: "http://localhost:5173" }));
 
 // Connect to the database
 Dbconnect();
 
-app.use(cors({ origin: "http://localhost:5173" }));
 
-app.use(express.json());
 
 app.use("/api/user", userRoutes);
 app.use("/api/property", propertyRoutes);
