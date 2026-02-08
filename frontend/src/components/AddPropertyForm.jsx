@@ -19,7 +19,7 @@ export function AddPropertyForm() {
     async function fetchOwners() {
       try {
         const response = await axios.get(
-          "http://localhost:3004/api/owner/getOwners"
+          "https://property-managment-backend.onrender.com/api/owner/getOwners"
         );
         setOwners(response.data);
       } catch (error) {
@@ -41,7 +41,7 @@ export function AddPropertyForm() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3004/api/property/addProperty",
+        "https://property-managment-backend.onrender.com/api/property/addProperty",
         payload
       );
       console.log(response.data);

@@ -11,7 +11,7 @@ export const Users = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3004/api/user/getAllusers"
+          "https://property-managment-backend.onrender.com/api/user/getAllusers"
         );
         setUsers(response.data);
       } catch (error) {
@@ -34,7 +34,7 @@ export const Users = () => {
     if (!isConfirmed) return;
 
     try {
-      await axios.delete(`http://localhost:3004/api/user/deleteUser/${id}`);
+      await axios.delete(`https://property-managment-backend.onrender.com/api/user/deleteUser/${id}`);
       alert("User deleted successfully");
       setUsers((prevUsers) => prevUsers.filter((_user) => _user._id !== id));
     } catch (error) {

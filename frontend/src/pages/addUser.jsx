@@ -20,7 +20,7 @@ const addUser = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:3004/api/user/signup",
+        "https://property-managment-backend.onrender.com/api/user/signup",
         formData
       );
       const data = response.data;

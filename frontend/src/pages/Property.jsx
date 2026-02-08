@@ -11,7 +11,7 @@ const TableWithActions = () => {
     const fetchProperties = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3004/api/property/getAllProperties"
+          "https://property-managment-backend.onrender.com/api/property/getAllProperties"
         );
         setProperties(response.data);
       } catch (error) {
@@ -39,7 +39,7 @@ const TableWithActions = () => {
 
     try {
       await axios.delete(
-        `http://localhost:3004/api/property/deleteProperty/${id}`
+        `https://property-managment-backend.onrender.com/api/property/deleteProperty/${id}`
       );
       alert("Property deleted successfully");
       setProperties((prevProperties) =>

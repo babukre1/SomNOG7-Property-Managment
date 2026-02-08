@@ -16,7 +16,7 @@ const StatCards = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3004/api/property/getAllProperties"
+          "https://property-managment-backend.onrender.com/api/property/getAllProperties"
         );
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -44,7 +44,7 @@ const StatCards = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3004/api/user/getAllusers"
+          "https://property-managment-backend.onrender.com/api/user/getAllusers"
         );
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

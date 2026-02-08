@@ -17,7 +17,7 @@ export function EditPropertyForm() {
   useEffect(() => {
     if (id) {
       axios
-        .get(`http://localhost:3004/api/property/getProperty/${id}`)
+        .get(`https://property-managment-backend.onrender.com/api/property/getProperty/${id}`)
         .then((response) => {
           const data = response.data;
           setFormState({
@@ -67,7 +67,7 @@ export function EditPropertyForm() {
 
     // Update property data
     await axios
-      .post(`http://localhost:3004/api/property/updateProperty/${id}`, {
+      .post(`https://property-managment-backend.onrender.com/api/property/updateProperty/${id}`, {
         ...formState,
       })
       .then((response) => {

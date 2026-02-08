@@ -38,7 +38,9 @@ function Owner() {
   // Fetch owners from the backend
   useEffect(() => {
     axios
-      .get("http://localhost:3004/api/owner/getOwners")
+      .get(
+        "https://property-managment-backend.onrender.com/api/owner/getOwners",
+      )
       .then((response) => {
         const fetchedOwners = Array.isArray(response.data) ? response.data : [];
         setOwners(fetchedOwners);
@@ -49,7 +51,7 @@ function Owner() {
   // Handle deleting an owner
   const handleDeleteOwner = (id) => {
     axios
-      .delete(`http://localhost:3004/api/owner/deleteOwner/${id}`)
+      .delete(`https://property-managment-backend.onrender.com/api/owner/deleteOwner/${id}`)
       .then(() => {
         toast.success("Owner deleted successfully!");
         setOwners((prevState) => prevState.filter((owner) => owner._id !== id));
@@ -90,8 +92,8 @@ function Owner() {
 
     // Determine if it's an Add or Update operation
     const url = currentOwner
-      ? `http://localhost:3004/api/owner/updateOwner/${currentOwner._id}`
-      : "http://localhost:3004/api/owner/addOwner";
+      ? `https://property-managment-backend.onrender.com/api/owner/updateOwner/${currentOwner._id}`
+      : "https://property-managment-backend.onrender.com/api/owner/addOwner";
     const method = currentOwner ? "post" : "post";
 
     axios[method](url, newFormData)
@@ -99,8 +101,8 @@ function Owner() {
         if (currentOwner) {
           setOwners(
             owners.map((owner) =>
-              owner._id === currentOwner._id ? response.data : owner
-            )
+              owner._id === currentOwner._id ? response.data : owner,
+            ),
           );
           toast.success("Owner updated successfully!");
         } else {
