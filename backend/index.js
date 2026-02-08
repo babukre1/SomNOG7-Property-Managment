@@ -3,10 +3,8 @@ import express from "express";
 import userRoutes from "./routes/auth.route.js";
 import propertyRoutes from "./routes/property.route.js";
 import ownerRoutes from "./routes/owner.route.js";
-
 import { Dbconnect } from "./config/connect.js";
 import cors from "cors";
-
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -16,8 +14,6 @@ app.use(cors({ origin: "http://localhost:5173" }));
 
 // Connect to the database
 Dbconnect();
-
-
 
 app.use("/api/user", userRoutes);
 app.use("/api/property", propertyRoutes);
@@ -29,7 +25,8 @@ app.get("/api/hello", (req, res) => {
 
   res.json({ message: "hello world" });
 });
+const PORT = process.env.PORT || 3004;
 
-app.listen(3004, () => {
-  console.log("server listening on port 3004");
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
 });

@@ -1,0 +1,22 @@
+services:
+  backend:
+    build: ./backend
+    container_name: property_management_system_backend
+    ports:
+      - "3004:3004"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+    command: npm run dev
+
+  frontend:
+    build: ./frontend
+    container_name: property_management_system_frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+    command: npm run dev
