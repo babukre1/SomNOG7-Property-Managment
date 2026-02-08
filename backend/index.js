@@ -10,7 +10,7 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "propertymanagmentfrontend.vercel.app" }));
+app.use(cors({ origin: "https://propertymanagmentfrontend.vercel.app" }));
 
 // Connect to the database
 Dbconnect();
