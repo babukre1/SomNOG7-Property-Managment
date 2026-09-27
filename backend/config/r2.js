@@ -10,6 +10,10 @@ const requiredVariables = [
 export const assertR2Configured = () => {
   const missing = requiredVariables.filter((name) => !process.env[name]);
   if (missing.length) throw new Error(`Missing R2 configuration: ${missing.join(", ")}`);
+
+  if (process.env.R2_ACCESS_KEY_ID.startsWith("cfat_") || process.env.R2_ACCESS_KEY_ID.length !== 32) {
+    throw new Error("R2_ACCESS_KEY_ID must be the 32-character S3 Access Key ID, not a cfat_ API token");
+  }
 };
 
 let client;
