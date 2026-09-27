@@ -20,6 +20,10 @@ export const getR2Client = () => {
     client = new S3Client({
       region: "auto",
       endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+      // R2 does not require the SDK's automatic CRC32 checksum for presigned PUTs.
+      // Disabling it prevents the URL from signing a checksum for an empty body.
+      requestChecksumCalculation: "WHEN_REQUIRED",
+      responseChecksumValidation: "WHEN_REQUIRED",
       credentials: {
         accessKeyId: process.env.R2_ACCESS_KEY_ID,
         secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,

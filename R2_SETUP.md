@@ -24,7 +24,7 @@ Because the browser uploads directly to the presigned R2 URL, configure this pol
       "https://property.abubakr.so",
       "http://localhost:5173"
     ],
-    "AllowedMethods": ["PUT"],
+    "AllowedMethods": ["PUT", "GET", "HEAD"],
     "AllowedHeaders": ["Content-Type"],
     "ExposeHeaders": ["ETag"],
     "MaxAgeSeconds": 3600
