@@ -8,6 +8,7 @@ const OwnerSchema = new mongoose.Schema({
         address: { type: String, },
     },
     governmentIdProof: { type: String, required: true }, // e.g., passport, license
+    governmentIdType: { type: String, enum: ["Passport", "License", "National ID"], default: "Passport" },
     verificationStatus: { type: String, enum: ['Pending', 'Verified', 'Rejected'], default: 'Pending' },
     isSample: { type: Boolean, default: false },
 }, { timestamps: true });

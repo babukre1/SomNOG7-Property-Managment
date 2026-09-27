@@ -3,6 +3,7 @@ import express from "express";
 import userRoutes from "./routes/auth.route.js";
 import propertyRoutes from "./routes/property.route.js";
 import ownerRoutes from "./routes/owner.route.js";
+import uploadRoutes from "./routes/upload.route.js";
 import { Dbconnect } from "./config/connect.js";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -32,6 +33,7 @@ app.use(async (_req, res, next) => {
 app.use("/api/user", userRoutes);
 app.use("/api/property", propertyRoutes);
 app.use("/api/owner", ownerRoutes);
+app.use("/api/uploads", uploadRoutes);
 // app.use("/api/woner", ownerRoutes);
 
 app.get("/api/hello", (req, res) => {

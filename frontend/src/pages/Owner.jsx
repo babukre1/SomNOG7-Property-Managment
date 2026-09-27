@@ -24,6 +24,8 @@ function Owner() {
   const [owners, setOwners] = useState([]); // Initialize as empty array
   const [currentOwner, setCurrentOwner] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [idDocument, setIdDocument] = useState(null);
+  const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     contactInfo: {
@@ -31,7 +33,8 @@ function Owner() {
       email: "",
       address: "",
     },
-    governmentIdProof: "Passport",
+    governmentIdType: "Passport",
+    governmentIdProof: "",
     verificationStatus: "Pending",
   });
 
@@ -79,16 +82,23 @@ function Owner() {
   };
 
   // Handle form submission for both Add and Update
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Ensure that contactInfo is correctly structured when submitting
+    setSaving(true);
     const { contactInfo, ...rest } = formData;
-    console.log(contactInfo);
-
     const newFormData = { ...rest, contactInfo: { ...contactInfo } };
 
-    console.log(newFormData);
+    try {
+      if (idDocument) {
+        const { data } = await axios.post("/api/uploads/presign", {
+          filename: idDocument.name,
+          contentType: idDocument.type,
+          category: "identity",
+        });
+        await axios.put(data.uploadUrl, idDocument, { headers: { "Content-Type": idDocument.type } });
+        newFormData.governmentIdProof = data.documentUrl;
+      }
+      if (!newFormData.governmentIdProof) throw new Error("Government ID document is required");
 
     // Determine if it's an Add or Update operation
     const url = currentOwner
@@ -96,8 +106,7 @@ function Owner() {
       : "/api/owner/addOwner";
     const method = currentOwner ? "post" : "post";
 
-    axios[method](url, newFormData)
-      .then((response) => {
+      const response = await axios[method](url, newFormData);
         if (currentOwner) {
           setOwners(
             owners.map((owner) =>
@@ -110,8 +119,12 @@ function Owner() {
           toast.success("Owner added successfully!");
         }
         setShowForm(false);
-      })
-      .catch(() => toast.error("Error saving owner"));
+        setIdDocument(null);
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message || "Error saving owner");
+    } finally {
+      setSaving(false);
+    }
   };
 
   // Handle edit button click
@@ -239,8 +252,8 @@ function Owner() {
             <FormControl fullWidth margin="normal">
               <InputLabel>Government ID Proof</InputLabel>
               <Select
-                name="governmentIdProof"
-                value={formData.governmentIdProof}
+                name="governmentIdType"
+                value={formData.governmentIdType || "Passport"}
                 onChange={handleChange}
               >
                 <MenuItem value="Passport">Passport</MenuItem>
@@ -248,6 +261,10 @@ function Owner() {
                 <MenuItem value="National ID">National ID</MenuItem>
               </Select>
             </FormControl>
+            <Button variant="outlined" component="label" fullWidth sx={{ mt: 1 }}>
+              {idDocument ? idDocument.name : currentOwner?.governmentIdProof ? "Replace ID document" : "Upload ID document"}
+              <input hidden type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" onChange={(event) => setIdDocument(event.target.files?.[0] || null)} />
+            </Button>
             <FormControl fullWidth margin="normal">
               <InputLabel>Verification Status</InputLabel>
               <Select
@@ -267,7 +284,7 @@ function Owner() {
               fullWidth
               sx={{ mt: 2 }}
             >
-              {currentOwner ? "Update Owner" : "Add Owner"}
+              {saving ? "Uploading..." : currentOwner ? "Update Owner" : "Add Owner"}
             </Button>
             <Button
               variant="outlined"
