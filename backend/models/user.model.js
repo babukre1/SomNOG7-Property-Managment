@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
     contactInformation: { type: String, trim: true },
+    isSample: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

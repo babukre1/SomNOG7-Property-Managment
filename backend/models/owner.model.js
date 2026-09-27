@@ -9,6 +9,7 @@ const OwnerSchema = new mongoose.Schema({
     },
     governmentIdProof: { type: String, required: true }, // e.g., passport, license
     verificationStatus: { type: String, enum: ['Pending', 'Verified', 'Rejected'], default: 'Pending' },
+    isSample: { type: Boolean, default: false },
 }, { timestamps: true });
 
 // module.exports = mongoose.model('Owner', OwnerSchema);

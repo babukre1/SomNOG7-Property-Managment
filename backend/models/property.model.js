@@ -13,7 +13,7 @@ const PropertySchema = new mongoose.Schema(
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Owner",
       required: true,
     },
     documents: [{ type: String }], // URLs or file paths for documents
@@ -22,6 +22,7 @@ const PropertySchema = new mongoose.Schema(
       enum: ["Pending", "Approved", "Rejected"],
       default: "Pending",
     },
+    isSample: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
