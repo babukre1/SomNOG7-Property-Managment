@@ -10,6 +10,9 @@ import EditPropertyForm from "./components/EditPropertyForm";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Users } from "./pages/Users";
 import Owner from "./pages/Owner";
+import PropertyTypes from "./pages/PropertyTypes";
+import Reports from "./pages/Reports";
+import AuditLogs from "./pages/AuditLogs";
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
           <Route path="/addUser" element={<AddUser />} />
           <Route path="/users" element={<Users />} />
           <Route path="/owners" element={<Owner />} />
+          <Route path="/property-types" element={<PropertyTypes />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/audit-logs" element={<AuditLogs />} />
         </Route>
       </Route>
     </Routes>

@@ -1,18 +1,3 @@
-import React from "react";
-
 import RouteSelect from "./RouteSelect";
-import AccountToggle from "./AccountToggle";
-import LogoutButton from "./LogoutButton";
-
-const Sidebar = () => {
-  return (
-    <div className="h-screen bg-stone-100 p-4">
-      <div className="overflow-y-auto sticky top-4 h-[calc(100vh-32px-48px)] rounded-lg shadow-inner p-2">
-        <AccountToggle />
-        <RouteSelect />
-        <LogoutButton />
-      </div>
-    </div>
-  );
-};
-export default Sidebar;
+import { useNavigate } from "react-router-dom";
+export default function Sidebar({user}){const navigate=useNavigate();const logout=()=>{localStorage.removeItem("user_info");sessionStorage.removeItem("user_info");navigate("/login")};return <aside className="side-panel"><div className="agency-mark"><div className="agency-seal">PR</div><div><strong>National Land Registry</strong><span>Property Services Portal</span></div></div><p className="nav-label">REGISTRY MENU</p><RouteSelect/><div className="side-user"><div className="user-chip"><div className="user-avatar">{(user.name||user.email||"U")[0].toUpperCase()}</div><div><strong>{user.name||user.email}</strong><span>{user.role||"Registry user"}</span></div></div><button className="logout-btn" onClick={logout}><span>Sign out securely</span></button></div></aside>}

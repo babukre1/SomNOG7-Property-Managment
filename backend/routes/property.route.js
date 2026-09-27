@@ -5,6 +5,7 @@ import {
   getPropertyById,
   deleteProperty,
   updateProperty,
+  updatePropertyStatus,
 } from "../controllers/propertyController.js";
 
 const router = express.Router();
@@ -14,6 +15,7 @@ router.post("/addProperty", addProperty);
 
 // update a property
 router.post("/updateProperty/:id", updateProperty);
+router.patch("/:id/status", updatePropertyStatus);
 
 // Get all properties
 router.get("/getAllProperties", getAllProperties);

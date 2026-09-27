@@ -4,18 +4,20 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const signup = async (req, res) => {
-  const { name, email, password, role } = req.body;
-  if (!password) {
-    return res.status(400).json({ message: "Password is required" });
+  const { name, email, password, role, contactInformation } = req.body;
+  if (!password || password.length < 8) {
+    return res.status(400).json({ message: "Password must contain at least 8 characters." });
   }
+  if (!name || !email) return res.status(400).json({ message: "Name and email are required." });
   const hashedPassword = await bcrypt.hash(password, 12);
-  const newUser = new User({ name, email, password: hashedPassword, role });
+  const newUser = new User({ name, email: email.toLowerCase().trim(), password: hashedPassword, role: role || "user", contactInformation });
 
   try {
     await newUser.save();
     res.status(201).json({ message: "user craeted succesfully!" });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong", error: error });
+    const duplicate = error?.code === 11000;
+    res.status(duplicate ? 409 : 500).json({ message: duplicate ? "An account with this email already exists." : "Something went wrong" });
   }
 };
 
@@ -29,17 +31,15 @@ export const signin = async (req, res, next) => {
       res.status(404).json({ message: "user not found" });
       return;
     }
-    console.log(validUser.password);
-
     const validPassword = bcrypt.compareSync(password, validUser.password);
-    if (false) {
-      return next(errorHandler(401, "wrong email or password"));
+    if (!validPassword) {
+      return res.status(401).json({ message: "Wrong email or password." });
     }
-    const token = jwt.sign({ id: validUser._id }, "USER");
+    const token = jwt.sign({ id: validUser._id, role: validUser.role }, process.env.JWT_SECRET || "development-secret", { expiresIn: "24h" });
     const { password: hashedPassword, ...rest } = validUser._doc;
     const expiryDate = new Date(); // Create a new date object
     expiryDate.setHours(expiryDate.getHours() + 24); // Set expiration to 1 hour from now
-    res.status(200).json(rest);
+    res.status(200).json({ ...rest, token });
   } catch (error) {
     console.error(error.message);
 

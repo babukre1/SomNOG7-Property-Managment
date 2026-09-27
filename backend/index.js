@@ -10,7 +10,8 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "https://propertymanagmentfrontend.vercel.app" }));
+const allowedOrigins = ["https://property.abubakr.so", "https://propertymanagmentfrontend.vercel.app", "http://localhost:5173"];
+app.use(cors({ origin: (origin, callback) => !origin || allowedOrigins.includes(origin) ? callback(null, true) : callback(new Error("Origin not allowed")) }));
 
 // Connect to the database
 Dbconnect();
@@ -27,6 +28,8 @@ app.get("/api/hello", (req, res) => {
 });
 const PORT = process.env.PORT || 3004;
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`));
+}
+
+export default app;

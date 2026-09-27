@@ -77,3 +77,21 @@ export const updateProperty = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const updatePropertyStatus = async (req, res) => {
+  const { status } = req.body;
+  if (!["Pending", "Approved", "Rejected"].includes(status)) {
+    return res.status(400).json({ message: "Invalid property status." });
+  }
+  try {
+    const property = await Property.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true, runValidators: true }
+    );
+    if (!property) return res.status(404).json({ message: "Property not found." });
+    return res.status(200).json(property);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};

@@ -39,7 +39,7 @@ function Owner() {
   useEffect(() => {
     axios
       .get(
-        "https://property-managment-backend.onrender.com/api/owner/getOwners",
+        "/api/owner/getOwners",
       )
       .then((response) => {
         const fetchedOwners = Array.isArray(response.data) ? response.data : [];
@@ -51,7 +51,7 @@ function Owner() {
   // Handle deleting an owner
   const handleDeleteOwner = (id) => {
     axios
-      .delete(`https://property-managment-backend.onrender.com/api/owner/deleteOwner/${id}`)
+      .delete(`/api/owner/deleteOwner/${id}`)
       .then(() => {
         toast.success("Owner deleted successfully!");
         setOwners((prevState) => prevState.filter((owner) => owner._id !== id));
@@ -92,8 +92,8 @@ function Owner() {
 
     // Determine if it's an Add or Update operation
     const url = currentOwner
-      ? `https://property-managment-backend.onrender.com/api/owner/updateOwner/${currentOwner._id}`
-      : "https://property-managment-backend.onrender.com/api/owner/addOwner";
+      ? `/api/owner/updateOwner/${currentOwner._id}`
+      : "/api/owner/addOwner";
     const method = currentOwner ? "post" : "post";
 
     axios[method](url, newFormData)
